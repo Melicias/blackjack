@@ -12,7 +12,8 @@ use ArmoredCore\Facades\Router;
  *  Use convention: controllerName@methodActionName
  ****************************************************************************/
 
-
+Router::get('/','indexController/index');
+Router::get('base/','indexController/index');
 
 
 
