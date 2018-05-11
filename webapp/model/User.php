@@ -2,17 +2,13 @@
 
 class User extends \ActiveRecord\Model
 {
-    private $username;
-    private $name;
-    
-    static $validates_presence_of = array(
-        array('name'),
-        array('isbn', 'message' => 'YooaaH it must be provided')
-    );
 
     static $validates_presence_of = array(
-        array('first_name'),
-        array('last_name')
+        array('email', 'message' => 'Deverá preencher este campo!'),
+        array('full_name', 'message' => 'Deverá preencher este campo!'),
+        array('username', 'message' => 'Deverá preencher este campo!'),
+        array('pass', 'message' => 'Deverá preencher este campo!'),
+        array('birthday', 'message' => 'Deverá preencher este campo!')
     );
 }
 

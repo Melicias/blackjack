@@ -2,7 +2,12 @@
 use ArmoredCore\WebObjects\Asset;
 use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
-Layout::includeLayout('headerindex'); ?>
+use ArmoredCore\WebObjects\Session;
+if(Session::has('user')){
+    Layout::includeLayout('header');
+}else{
+    Layout::includeLayout('headerindex');
+}?>
 
     <!-- Header -->
     <header id="head">

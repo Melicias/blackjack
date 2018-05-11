@@ -17,5 +17,5 @@ $defaultDbConnection = array (
     'SERVER'        => 'localhost',
     'DATABASENAME'  => 'blackjack',
     'USER'          => 'root',
-    'PASSWORD'      => 'root'
+    'PASSWORD'      => ''
 );

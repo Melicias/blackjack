@@ -13,9 +13,13 @@ use ArmoredCore\Facades\Router;
  ****************************************************************************/
 
 Router::get('/','indexController/index');
-Router::get('base/','indexController/index');
+Router::get('base/index','indexController/index');
 
+Router::get('base/regist_login','registerLoginController/regist_login');
+Router::POST('base/login','registerLoginController/login');
+Router::POST('base/registo','registerLoginController/regist_login_made');
 
+Router::get('base/logout','registerLoginController/logout');
 
 
 

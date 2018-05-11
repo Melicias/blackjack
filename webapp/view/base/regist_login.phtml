@@ -1,0 +1,94 @@
+<?php
+use ArmoredCore\WebObjects\Asset;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Post;
+use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\ErrMgr;
+
+$user = Data::get('user');
+ErrMgr::attach($user);
+$a = Data::get('aa');
+$erroUsername = Data::get('erroUsername');
+$erroPass = Data::get('erroPass');
+
+Layout::includeLayout('headerindex');?>
+    <!-- Header -->
+    
+        <div class="container" style="background: #181015;background-size: cover;width:100%;padding-left: 50px;height:75vh;">
+            <div class="links" style="float: left;width:50%;">
+                <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/registo')?>">
+                    <h2 style="color:white;">Registar</h2>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-3 control-label">Full Name</label>
+                        
+                        <div class="col-sm-9">
+                            <input type="text" value="<?=$user->full_name?>" name="full_name" placeholder="Full Name" class="form-control" autofocus>
+                        </div>
+                        <?= ErrMgr::bind('full_name') ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-3 control-label">username</label>
+                        <div class="col-sm-9">
+                            <input type="text" value="<?=$user->username?>" name="username" placeholder="username" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" value="<?=$user->email?>" name="email" placeholder="Email" class="form-control">
+                            <span class="help-block">e.g: antonio.lopes@gmail.com</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" value="<?=$user->pass?>" name="pass" placeholder="Password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate" class="col-sm-3 control-label">Date of Birth</label>
+                        <div class="col-sm-9">
+                            <input type="date" name="birthday" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" class="btn btn-primary btn-block" value="Registar">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="" style="float: right;width:45%;">
+                <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/login')?>">
+                    <h2 style="color:white;" >Login</h2>
+                    <?php if($erroUsername->errors != null){?>
+                        <h5 style="color:white;" ><?= $erroUsername->errors ?></h5>
+                    <?php } ?>           
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-3 control-label">username</label>
+                        <div class="col-sm-9">
+                            <input type="text" value="<?php if($erroPass->errors != null){ echo $erroPass->username;} ?>" name="username" placeholder="username" class="form-control" autofocus>
+                        </div>
+                    </div>
+                    <?php if($erroPass->errors != null){?>
+                        <h5 style="color:white;" ><?= $erroPass->errors ?></h5>
+                    <?php } ?>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="pass" placeholder="Password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <input type="submit" class="btn btn-primary btn-block" value="Login">
+                        </div>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    
+    <!-- /Header -->
+
+<?php Layout::includeLayout('footer')?>
