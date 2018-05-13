@@ -1,0 +1,28 @@
+<?php
+use ArmoredCore\WebObjects\Asset;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Session;
+
+Layout::includeLayout('header');?>
+
+    <!-- Header -->
+    <header id="head">
+        <div class="container">
+            <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/bet')?>">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <input type="number" min="1" name="bet_value" placeholder="Bet value" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                    <input type="submit" class="btn btn-primary btn-block" value="Bet">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </header>
+    <!-- /Header -->
+
+<?php Layout::includeLayout('footer')?>

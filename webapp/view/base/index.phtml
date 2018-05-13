@@ -3,7 +3,7 @@ use ArmoredCore\WebObjects\Asset;
 use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
 use ArmoredCore\WebObjects\Session;
-if(Session::has('user')){
+if(Session::has('userid')){
     Layout::includeLayout('header');
 }else{
     Layout::includeLayout('headerindex');
@@ -12,73 +12,10 @@ if(Session::has('user')){
     <!-- Header -->
     <header id="head">
         <div class="container">
-            <div class="row">
-                <h1 class="lead"><b>WEBlogic Studio</b><br><small><b>Armored</b>Core v0.85</small><br>MVC Reference Framework</h1>
-                <p class="tagline">Developing better Apps. Creating better professionals.</p>
-                <p><a class="btn btn-action btn-lg" role="button" href="<?= Url::toRoute('home/start')?>">START NOW</a></p>
-                <p class="small">By<i> Sílvio Priem Mendes, PhD</i></p>
-            </div>
+            
         </div>
     </header>
     <!-- /Header -->
-
-
-    <!-- Intro -->
-    <div class="container text-center">
-        <br>
-        <img width="25%" height="25%" src="<?=Asset::image('weblogos-small.png')?>">
-        <h2 class="thin">Learn Here . . . Work Everywhere.</h2>
-        <br>
-        <p class="text-muted">
-            Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.
-        </p>
-        <h2 class="thin">Learn Today . . . Lead Tomorrow.</h2>
-
-    </div>
-    <!-- /Intro-->
-
-    <div class="jumbotron top-space">
-        <h5><span class="glyphicon glyphicon-cog">&nbsp;</span><strong>Armored Core Now Includes: </strong>
-        PSR-7 HTTP Messaging, PSR-11 Containers for IOC, PSR-15 HTTP Middleware and PSR-17 HTTP Factories
-        </h5>
-    </div>
-
-    </div>
-
-    <!-- Highlights - jumbotron -->
-    <div class="jumbotron top-space">
-        <div class="container">
-            <h3 class="text-center thin">WHAT YOU GET</h3>
-            <div class="row">
-                <div class="col-md-3 col-sm-6 highlight">
-                    <div class="h-caption"><h4><i class="fa fa-cogs fa-5"></i>Clean Web Objects for learners</h4></div>
-                    <div class="h-body text-center">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 highlight">
-                    <div class="h-caption"><h4><i class="fa fa-flash fa-5"></i>Fat-free</h4></div>
-                    <div class="h-body text-center">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 highlight">
-                    <div class="h-caption"><h4><i class="fa fa-heart fa-5"></i>High Quality Industry Standards and Best Practices</h4></div>
-                    <div class="h-body text-center">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 highlight">
-                    <div class="h-caption"><h4><i class="fa fa-smile-o fa-5"></i>Learn here Work everywhere</h4></div>
-                    <div class="h-body text-center">
-                        <p></p>
-                    </div>
-                </div>
-            </div> <!-- /row  -->
-
-        </div>
-    </div>
-    <!-- /Highlights -->
 
     <!-- container -->
     <div class="container">

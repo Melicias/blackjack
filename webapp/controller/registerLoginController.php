@@ -52,7 +52,7 @@ class registerLoginController extends BaseController
     }
 
     private function afterLogin($user){
-        Session::set('user', $user);
+        Session::set('userid', $user->id);
         return View::make('base.index');
     }
 
