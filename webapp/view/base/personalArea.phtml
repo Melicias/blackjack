@@ -1,0 +1,25 @@
+<?php
+use ArmoredCore\WebObjects\Asset;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Session;
+
+$userid = Session::get('userid');
+$user = User::find($userid);
+
+if(Session::has('userHand')){
+    $userHand = Session::get('userHand');
+    $computerHand = Session::get('computerHand');
+    var_dump($userHand->cards);
+    var_dump(count($userHand->cards));
+}
+
+
+Layout::includeLayout('header');?>
+
+    <!-- Header -->
+        <div class="container"style="width:100%;height:100%;background: #181015;" >
+            
+        </div>
+    <!-- /Header -->
+<?php Layout::includeLayout('footer')?>

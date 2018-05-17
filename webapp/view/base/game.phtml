@@ -4,25 +4,92 @@ use ArmoredCore\WebObjects\Layout;
 use ArmoredCore\WebObjects\URL;
 use ArmoredCore\WebObjects\Session;
 
+$userid = Session::get('userid');
+$user = User::find($userid);
+
+if(Session::has('userHand')){
+    $userHand = Session::get('userHand');
+    $computerHand = Session::get('computerHand');
+    var_dump($userHand->cards);
+    var_dump(count($userHand->cards));
+}
+
+
 Layout::includeLayout('header');?>
 
     <!-- Header -->
-    <header id="head">
-        <div class="container">
-            <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/bet')?>">
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <input type="number" min="1" name="bet_value" placeholder="Bet value" class="form-control" required>
-                    </div>
+        <div class="container"style="width:100%;height:100%;background: #181015;" >
+            <?php  if(Session::has('finalMessage')){?>
+                    <h1 style="top:50px; left:50px; position: absolute; color:white;"><?=Session::get('finalMessage')?> </h1>
+               <?php } ?>
+            <?php  if(Session::has('computerHand')){
+                for($i = 0;$i<count($computerHand->cards);$i++){?>
+                    <img src="<?= Asset::image($computerHand->cards[$i]->getCardNameWithPng())?>" alt="BlackJack" width="140px" height="190px" style="top:90px; left:<?=500+($i*50) ?>px; position: absolute;">
+                <?php } ?>
+                <h4 style="top:50px; left:600px; position: absolute; color:white;">Dealer's hand </h4>
+                <h5 style="top:165px; left:400px; position: absolute; color:white;"> Points: <?= $computerHand->value ?> </h5>
+            <?php } ?>
+            <div class="" style="width:110px; position:absolute; bottom:45px; left:50px;">
+                <div style="border-bottom: 3px orange solid; width:100%; margin-bottom: 15px; color: white;">
+                    <h4>Money: <?=$user->money?>€</h4>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-2">
-                    <input type="submit" class="btn btn-primary btn-block" value="Bet">
+                <?php  if(Session::has('bet_value')){ ?>
+                    <h4 style="color: white;text-align: center;">Bet Amount: <?=Session::get('bet_value')?>€ </h4>
+                <?php }else{ ?>
+                    <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('bets/bet')?>">
+                        <div class="form-group">
+                            <div>
+                                <input type="number" min="1" max="<?=$user->money?>" name="bet_value" placeholder="Bet value" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <input type="submit" class="btn btn-primary btn-block" value="Bet">
+                            </div>
+                        </div>
+                    </form>
+                <?php } ?>
+            </div>
+            <?php  if(Session::has('userHand')){
+                for($i = 0;$i<count($userHand->cards);$i++){?>
+                    <img src="<?= Asset::image($userHand->cards[$i]->getCardNameWithPng())?>" alt="BlackJack" width="140px" height="190px" style="bottom:90px; left:<?=500+($i*50) ?>px; position: absolute;">
+                <?php } ?>
+                <h4 style="bottom:50px; left:600px; position: absolute; color:white;"><?= $user->username?>'s hand </h4>
+                <h5 style="bottom:165px; left:400px; position: absolute; color:white;"> Points: <?= $userHand->value ?> </h5>
+            <?php } ?>
+            
+            <div class="" style="<?php  if(!Session::has('bet_value')){echo "visibility: hidden;"; }?> position:absolute; width:120px; bottom: 45px; right: 50px;">
+                <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('bets/stand')?>">
+                    <div class="form-group">
+                        <div>
+                        <input style="width:100%;" type="submit" class="btn btn-primary" value="Stand">
+                        </div>
                     </div>
+                </form>
+                <div style="<?php  if(Session::has('user21')){echo "visibility: hidden;"; }?>">
+                    <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('bets/hit')?>">
+                        <div class="form-group">
+                            <div>
+                            <input style="width:100%;" type="submit" class="btn btn-primary" value="Hit">
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('bets/double')?>">
+                        <div class="form-group">
+                            <div>
+                            <input style="width:100%;<?php  if(Session::has('bet_value')){if(Session::get('bet_value')>$user->money){echo "visibility: hidden;";}}?>" type="submit" class="btn btn-primary" value="Double">
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('bets/surrender')?>">
+                        <div class="form-group">
+                            <div>
+                            <input style="width:100%;" type="submit"  style="width:100%; text-align:center; "  class="btn btn-primary" value="Surrender">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-    </header>
     <!-- /Header -->
-
 <?php Layout::includeLayout('footer')?>

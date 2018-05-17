@@ -12,14 +12,32 @@ class Deck{
     
     function __construct() {
         //insert the cards into the deck
-        $this->inicializeDeck();
+        $deck1 = $this->inicializeDeck();
+        $deck2 = $this->inicializeDeck();
+        $deck3 = $this->inicializeDeck();
+        $deck4 = $this->inicializeDeck();
+        $deck5 = $this->inicializeDeck();
+        $this->cards = array_merge($deck1,$deck2,$deck3,$deck4,$deck5);
         //shuffle the deck
         shuffle($this->cards);
     }
 
+    //return the first element of the array and remove the first one
+    //returns null if there is no more cards in the deck
+    function giveCardToUser(){
+        if(count($this->cards)>0)
+            return array_shift($this->cards);
+        return null;
+    }
+
+    //returns all the array of cards
+    public function getDeck(){
+        return $this->cards;
+    }
+
     public function inicializeDeck(){
-        //card  __construct($name,$value,$imgName)
-        $this->cards = array(
+        //card  __construct($name,$value)
+        $deck = array(
             //all clubs
             new card("cardClubs2",2),
             new card("cardClubs3",3),
@@ -33,7 +51,7 @@ class Deck{
             new card("cardClubsJ",10),
             new card("cardClubsQ",10),
             new card("cardClubsK",10),
-            new card("cardClubsA",1),
+            new card("cardClubsA",11),
             //all diamonds
             new card("cardDiamonds2",2),
             new card("cardDiamonds3",3),
@@ -47,7 +65,7 @@ class Deck{
             new card("cardDiamondsJ",10),
             new card("cardDiamondsQ",10),
             new card("cardDiamondsK",10),
-            new card("cardDiamondsA",1),
+            new card("cardDiamondsA",11),
             //all hearths
             new card("cardHearts2",2),
             new card("cardHearts3",3),
@@ -61,7 +79,7 @@ class Deck{
             new card("cardHeartsJ",10),
             new card("cardHeartsQ",10),
             new card("cardHeartsK",10),
-            new card("cardHeartsA",1),
+            new card("cardHeartsA",11),
             //all spades
             new card("cardSpades2",2),
             new card("cardSpades3",3),
@@ -75,12 +93,9 @@ class Deck{
             new card("cardSpadesJ",10),
             new card("cardSpadesQ",10),
             new card("cardSpadesK",10),
-            new card("cardSpadesA",1)
+            new card("cardSpadesA",11)
         );
-    }
-
-    public function getDeck(){
-        return $this->cards;
+        return $deck;
     }
 
 }

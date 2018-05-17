@@ -19,7 +19,8 @@ class Card{
         $this->value = $value;
     }
 
-    public function getCardName(){
+    //returns the card name with '.png' at the end
+    public function getCardNameWithPng(){
         return $this->name . ".png";
     }
 }

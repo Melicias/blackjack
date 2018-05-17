@@ -27,7 +27,7 @@ use ArmoredCore\WebObjects\URL;
     <![endif]-->
 </head>
 
-<body class="home">
+<body class="home" style="background: #181015; height: 100%;">
 <!-- Fixed navbar -->
 <div class="navbar navbar-inverse navbar-fixed-top headroom" >
     <div class="container">
@@ -37,14 +37,12 @@ use ArmoredCore\WebObjects\URL;
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav pull-right">
-                <li class="active"><a href="<?= URL::toRoute('base/index')?>">Página inicial</a></li>
-                <li><a href="<?= URL::toRoute('base/jogar')?>">Jogar</a></li>
-                <li><a href="<?= URL::toRoute('base/index')?>">Área Pessoal</a></li>
-                <li><a href="<?= URL::toRoute('base/index')?>">JackPot</a></li>
+                <li class="active"><a href="<?= URL::toRoute('base/index')?>">Home</a></li>
+                <li><a href="<?= URL::toRoute('base/play')?>">Play</a></li>
+                <li><a href="<?= URL::toRoute('base/personalArea')?>">Personal area</a></li>
+                <li><a href="<?= URL::toRoute('base/jackpot10')?>">JackPot 10</a></li>
                 <li><a class="btn" href="<?= URL::toRoute('base/logout')?>">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
-<!-- /.navbar -->
-<header id="head" class="secondary"></header>
