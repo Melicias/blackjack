@@ -49,16 +49,16 @@ class gameController extends BaseController
                 Session::set('userHand', $userHand);
                 Session::set('bet_value', $bet_value);
                 //return View::make('base.game');
-                Redirect::toRoute('base/jogar');
+                Redirect::toRoute('base/play');
             } else {
-                Redirect::toRoute('base/jogar');
+                Redirect::toRoute('base/play');
             }
         }else{
             Session::remove('finalMessage');
             Session::remove('user21');
             Session::remove('userHand');
             Session::remove('computerHand');
-            Redirect::toRoute('base/jogar');
+            Redirect::toRoute('base/play');
         }
     }
 
@@ -78,10 +78,10 @@ class gameController extends BaseController
                 Session::remove('computerHand');
                 Session::remove('userHand');
                 Session::remove('bet_value');
-                Redirect::toRoute('base/jogar');
+                Redirect::toRoute('base/play');
             }
         }else{
-            Redirect::toRoute('base/jogar');
+            Redirect::toRoute('base/play');
         }
     }
 
@@ -94,7 +94,7 @@ class gameController extends BaseController
             //gets a card from the deck and gives it to the user
             do{
                 $computerHand->addCardToHand($deck->giveCardToUser());
-            }while($computerHand->value<16);
+            }while($computerHand->value<=16);
             Session::set('deck', $deck);
             Session::set('computerHand', $computerHand);
             $userHand = Session::get('userHand');
@@ -131,13 +131,18 @@ class gameController extends BaseController
                         $user->save();
                         //updates the user money in db
                         $user->update_attributes(array('money' => $user->money));
+
+                        //new code for the jackpot
+                        
+                        gameController::addToJackpot($user,(Session::get('bet_value')*2));
+
                     }
                 }
             }
             Session::remove('bet_value');
-            Redirect::toRoute('base/jogar');
+            Redirect::toRoute('base/play');
         }else{
-            Redirect::toRoute('base/jogar');
+            Redirect::toRoute('base/play');
         }
     }
 
@@ -154,7 +159,7 @@ class gameController extends BaseController
         //if user gets 21, add this session variable so it removes the buttons from the page game.phtml
         if($userHand->value == 21)
             Session::set('user21', "1");
-        Redirect::toRoute('base/jogar');
+        Redirect::toRoute('base/play');
     }
 
     public function double(){
@@ -177,7 +182,7 @@ class gameController extends BaseController
                 if($userHand->value > 21){
                     Session::set("finalMessage", "Dealer's WIN");
                     Session::remove('bet_value');
-                    Redirect::toRoute('base/jogar');
+                    Redirect::toRoute('base/play');
                 }else{
                     Session::set('bet_value',$bet_value);
                     gameController::stand();
@@ -185,6 +190,42 @@ class gameController extends BaseController
             }
         }else{
             Redirect::toRoute('base/jogar');
+        }
+    }
+
+    public function addToJackpot($user,$value_won){
+        //gets all the jackpots and orders them by value_won
+        $jackpots = Jackpot::find('all',array('order' => 'value_won desc'));
+        if(count($jackpots) == 0){
+            //creates the first one, when there is no other win
+            $jackpot = new Jackpot(array("value_won" => $value_won, "bj_date" => date('m/d/Y'), "username" => $user->username));
+            if($jackpot->is_valid()){
+                $jackpot->save();
+            }
+        }else{
+            //checks if there is 10 jackpots
+            if(count($jackpots) == 10){
+                //runs all jackpots
+                for($i = 0;$i<count($jackpots); $i++){
+                    //checks if there is one value inferior to the one that the user just won
+                    if($jackpots[$i]->value_won < $value_won){
+                        //remove last element
+                        $jackpots[(count($jackpots)-1)]->delete();
+                        //aadd a the new jackpot to the table
+                        $jackpot = new Jackpot(array("value_won" => $value_won, "bj_date" => date('m/d/Y'), "username" => $user->username));
+                        if($jackpot->is_valid()){
+                            $jackpot->save();
+                        }
+                        break;
+                    }
+                }
+            }else{
+                //just insert new line because we dont have 10 jackpots yet
+                $jackpot = new Jackpot(array("value_won" => $value_won, "bj_date" => date('m/d/Y'), "username" => $user->username));
+                if($jackpot->is_valid()){
+                    $jackpot->save();
+                }
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ Router::POST('base/login',           'registerLoginController/login');
 Router::POST('base/registo',         'registerLoginController/regist_login_made');
 
 Router::get('base/logout',           'registerLoginController/logout');
-Router::get('base/play',            'gameController/index');
+Router::get('base/play',             'gameController/index');
 Router::get('base/jackpot10',        'jackpot10Controller/index');
 Router::get('base/personalArea',     'PersonalAreaController/index');
 

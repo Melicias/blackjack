@@ -10,9 +10,8 @@ $user = User::find($userid);
 if(Session::has('userHand')){
     $userHand = Session::get('userHand');
     $computerHand = Session::get('computerHand');
-    var_dump($userHand->cards);
-    var_dump(count($userHand->cards));
 }
+//  var_dump(Session::get("users"));
 
 
 Layout::includeLayout('header');?>
@@ -31,7 +30,7 @@ Layout::includeLayout('header');?>
             <?php } ?>
             <div class="" style="width:110px; position:absolute; bottom:45px; left:50px;">
                 <div style="border-bottom: 3px orange solid; width:100%; margin-bottom: 15px; color: white;">
-                    <h4>Money: <?=$user->money?>€</h4>
+                    <h4>Credits: <?=$user->money?></h4>
                 </div>
                 <?php  if(Session::has('bet_value')){ ?>
                     <h4 style="color: white;text-align: center;">Bet Amount: <?=Session::get('bet_value')?>€ </h4>

@@ -9,13 +9,8 @@ class jackpot10Controller extends BaseController
 {
     public function index(){
         //CODE
-        $userid = Session::get('userid');
-        //know if this is right
-        //check with teacher
-        Session::destroy();
-        Session::set('userid',$userid);
+        $jackpots = Jackpot::find('all',array('order' => 'value_won desc'));
 
-
-        return View::make('base.jackpot10');
+        return View::make('base.jackpot10', ['jackpots' => $jackpots]);
     }
 }

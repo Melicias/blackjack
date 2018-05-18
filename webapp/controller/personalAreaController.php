@@ -12,8 +12,8 @@ class personalAreaController extends BaseController
         $userid = Session::get('userid');
         //know if this is right
         //check with teacher
-        Session::destroy();
-        Session::set('userid',$userid);
+        //Session::destroy();
+        //Session::set('userid',$userid);
 
         
         return View::make('base.personalArea');

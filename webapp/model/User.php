@@ -2,6 +2,9 @@
 
 class User extends \ActiveRecord\Model
 {
+
+    static $table_name = "users";
+
     /*
     * is_admin   int
     * username   String
