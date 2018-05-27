@@ -6,6 +6,7 @@ use ArmoredCore\WebObjects\Session;
 use ArmoredCore\WebObjects\Data;
 
 $jackpots = Data::get("jackpots");
+$jackpot_user = Data::get('jackpot_user');
 
 if(Session::has('userid')){
     Layout::includeLayout('header');
@@ -16,24 +17,27 @@ if(Session::has('userid')){
     <!-- Header -->
         <div class="container"style="width:100%;height:100%;background: #181015;" >
             <div style="margin: auto;width: 50%; padding: 100px;color:white;">
-            <table class="table">
-                <thead class="thead">
-                    <tr>
-                        <th scope="col">Username</th>
-                        <th scope="col">Credits won</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach($jackpots as $jackpot){?>
-                    <tr>
-                    <td><?=$jackpot->username?></td>
-                    <td><?=$jackpot->value_won?></td>
-                    <td><?=$jackpot->bj_date->format('Y-m-d')?></td>
-                    </tr>
-                <?php } ?>
-                </tbody>
-            </table>
+            <?php if($jackpot_user != null){ ?>
+                <p>Personal Record: <?=$jackpot_user->value_won?> credits on <?=$jackpot_user->bj_date->format('Y-m-d')?> at <?=$jackpot_user->bj_date->format('H:i:s')?></p>
+            <?php } ?>
+                <table class="table">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col">Credits won</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($jackpots as $jackpot){?>
+                        <tr>
+                        <td><?=$jackpot->username?></td>
+                        <td><?=$jackpot->value_won?></td>
+                        <td><?=$jackpot->bj_date->format('Y-m-d H:i:s')?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     <!-- /Header -->

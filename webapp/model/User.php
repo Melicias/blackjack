@@ -6,13 +6,17 @@ class User extends \ActiveRecord\Model
     static $table_name = "users";
 
     /*
-    * is_admin   int
+    * is_admin   int  0 -> no admin | 1 -> admin | default: 0
     * username   String
     * full_name  String
     * email      String
     * pass       String
     * Birthday   Date
     * money      int
+    * block      int  0 -> no block | 1 -> block | default: 0
+    * @param 
+    * @return 
+    * 
     *
     * no order in construct
     */

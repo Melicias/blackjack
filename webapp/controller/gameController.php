@@ -8,21 +8,34 @@ use ArmoredCore\WebObjects\Post;
 class gameController extends BaseController
 {
     public function index(){
+        if(!Session::has("userid"))
+            return Redirect::toRoute('base/index');
         return View::make('base.game');
     }
 
     public function bet(){
+        if(!Session::has("userid"))
+            return Redirect::toRoute('base/index');
         $bet_value = Post::get("bet_value");
         $userid = Session::get('userid');
         //gets the user in the database by the id
         $user = User::find($userid);
         //checks if user has any oney to bet with
+        if($bet_value <= 0)
+            return Redirect::toRoute('base/play');
         if($user->money >= $bet_value){
             $user->money -= $bet_value;
             if($user->is_valid()){
                 $user->save();
                 //updates the user money without the bet money
                 $user->update_attributes(array('money' => $user->money));
+
+                //adds this movement to the db
+                $movement = new UserMovement(array('id_user' => $userid,'money_type' => 'bet',
+                                           'debito' => $bet_value,
+                                           'description' => 'Bet','saldo' => $user->money));
+                $movement->save();
+
 
                 //remove Session last variables
                 Session::remove('finalMessage');
@@ -43,6 +56,8 @@ class gameController extends BaseController
                 $userHand = new Hand($deck->giveCardToUser());
                 $computerHand = new Hand($deck->giveCardToUser());
                 $userHand->addCardToHand($deck->giveCardToUser());
+                if($userHand->value == 21)
+                    Session::set('user21', "1");
                 //Session
                 Session::set('deck', $deck);
                 Session::set('computerHand', $computerHand);
@@ -63,6 +78,8 @@ class gameController extends BaseController
     }
 
     public function surrender(){
+        if(!Session::has("userid"))
+            return Redirect::toRoute('base/index');
         //when surrender, user keeps half the money that he bet
         if(Session::has('bet_value')){
             $userid = Session::get('userid');
@@ -74,6 +91,13 @@ class gameController extends BaseController
                 $user->save();
                 //updates the user money in db
                 $user->update_attributes(array('money' => $user->money));
+
+                //adds this movement to the db
+                $movement = new UserMovement(array('id_user' => $userid,'money_type' => 'sur',
+                                           'credito' => Session::get('bet_value')/2,
+                                           'description' => 'Sur','saldo' => $user->money));
+                $movement->save();
+
                 //Session
                 Session::remove('computerHand');
                 Session::remove('userHand');
@@ -86,6 +110,8 @@ class gameController extends BaseController
     }
 
     public function stand(){
+        if(!Session::has("userid"))
+            return Redirect::toRoute('base/index');
         if(Session::has('userHand')){
             //get Session variables
             $deck = Session::get('deck');
@@ -112,11 +138,18 @@ class gameController extends BaseController
                     $user->save();
                     //updates the user money in db
                     $user->update_attributes(array('money' => $user->money));
+
+                    //adds this movement to the db
+                $movement = new UserMovement(array('id_user' => $userid,'money_type' => 'win',
+                                                   'credito' => Session::get('bet_value'),
+                                                   'description' => 'Win','saldo' => $user->money));
+                $movement->save();
                 }
             }else{
                 //the dealer's wins
                 if($computerHand->value > $userHand->value && $computerHand->value <= 21){
                     Session::set("finalMessage", "Dealer's WIN");
+
                     //just reset things
 
                 }else{
@@ -131,6 +164,12 @@ class gameController extends BaseController
                         $user->save();
                         //updates the user money in db
                         $user->update_attributes(array('money' => $user->money));
+
+                        //adds this movement to the db
+                        $movement = new UserMovement(array('id_user' => $userid,'money_type' => 'win',
+                                                            'credito' => Session::get('bet_value')*2,
+                                                            'description' => 'Win','saldo' => $user->money));
+                        $movement->save();
 
                         //new code for the jackpot
                         
@@ -147,6 +186,8 @@ class gameController extends BaseController
     }
 
     public function hit(){
+        if(!Session::has("userid"))
+            return Redirect::toRoute('base/index');
         $deck = Session::get('deck');
         $userHand = Session::get('userHand');
         //gives another card to the user
@@ -163,6 +204,8 @@ class gameController extends BaseController
     }
 
     public function double(){
+        if(!Session::has("userid"))
+            return Redirect::toRoute('base/index');
         //gets the user in the database by the id
         $user = User::find(Session::get('userid'));
         $bet_value = Session::get('bet_value');
@@ -195,36 +238,22 @@ class gameController extends BaseController
 
     public function addToJackpot($user,$value_won){
         //gets all the jackpots and orders them by value_won
-        $jackpots = Jackpot::find('all',array('order' => 'value_won desc'));
-        if(count($jackpots) == 0){
+        $jackpot = Jackpot::find('first',array('conditions' => array('id_user=?',$user->id),
+                                             'order' => 'value_won desc'));
+        if(count($jackpot) == null){
             //creates the first one, when there is no other win
-            $jackpot = new Jackpot(array("value_won" => $value_won, "bj_date" => date('m/d/Y'), "username" => $user->username));
-            if($jackpot->is_valid()){
-                $jackpot->save();
+            $new_jackpot = new Jackpot(array("value_won" => $value_won, "username" => $user->username,"id_user" => $user->id));
+            if($new_jackpot->is_valid()){
+                $new_jackpot->save();
             }
         }else{
-            //checks if there is 10 jackpots
-            if(count($jackpots) == 10){
-                //runs all jackpots
-                for($i = 0;$i<count($jackpots); $i++){
-                    //checks if there is one value inferior to the one that the user just won
-                    if($jackpots[$i]->value_won < $value_won){
-                        //remove last element
-                        $jackpots[(count($jackpots)-1)]->delete();
-                        //aadd a the new jackpot to the table
-                        $jackpot = new Jackpot(array("value_won" => $value_won, "bj_date" => date('m/d/Y'), "username" => $user->username));
-                        if($jackpot->is_valid()){
-                            $jackpot->save();
-                        }
-                        break;
-                    }
+            if($jackpot->value_won < $value_won){
+                $new_jackpot = new Jackpot(array("value_won" => $value_won, "username" => $user->username,"id_user" => $user->id));
+                if($new_jackpot->is_valid()){
+                    $jackpot->delete();
+                    $new_jackpot->save();
                 }
-            }else{
-                //just insert new line because we dont have 10 jackpots yet
-                $jackpot = new Jackpot(array("value_won" => $value_won, "bj_date" => date('m/d/Y'), "username" => $user->username));
-                if($jackpot->is_valid()){
-                    $jackpot->save();
-                }
+                //$jackpot->update_attributes(array("value_won" => $value_won));
             }
         }
     }

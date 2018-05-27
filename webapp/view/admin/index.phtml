@@ -1,0 +1,49 @@
+<?php
+use ArmoredCore\WebObjects\Asset;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Session;
+use ArmoredCore\WebObjects\Data;
+
+$users = Data::get("users");
+//var_dump($users);
+
+Layout::includeLayout('adminheader');
+
+?>
+    <!-- container -->
+    <div class="container" style="padding-top: 60px;width:100%;padding-left: 50px;height:75vh;">
+        <form class="" method="POST" role="form" action="<?=Url::toRoute('admin/block')?>">
+            <table class="table table-fixed" style="width:50%;background-color: #f3f3f3; margin: 0px auto;">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1">ID</th>
+                        <th class="col-xs-3">Username</th>
+                        <th class="col-xs-4">Email</th>
+                        <th class="col-xs-1" style="text-align: right;">Block</th>
+                    </tr>
+                </thead>
+                <tbody style="height:200px;overflow-y:auto;width: 100%;">
+                <?php foreach($users as $user){ ?>
+                    <tr>
+                        <td name="id" class="col-xs-1"><?=$user->id?></td>
+                        <td class="col-xs-3"><?=$user->username?></td>
+                        <td class="col-xs-4"><?=$user->email?></td>
+                        <td class="col-xs-1" style="text-align: right;">
+                            <?php if($user->block == 0){ ?>
+                                <button type="submit" class="btn btn-warning btn-block" name="block" value="<?=$user->id?>">Block</button>
+                                <!--<input type="submit" class="btn btn-warning btn-block" name="block" value="Block"> -->
+                            <?php }else{ ?>
+                                <button type="submit" class="btn btn-success btn-block" name="unblock" value="<?=$user->id?>">UnBlock</button>
+                                <!--<input type="submit" class="btn btn-success btn-block" name="unblock" value="UnBlock"> -->
+                            <?php } ?>
+                        </td>
+                    </tr>
+                <?php } ?>
+                    
+                </tbody>
+            </table>
+        </form>
+    </div>	<!-- /container -->
+
+<?php Layout::includeLayout('footer')?>

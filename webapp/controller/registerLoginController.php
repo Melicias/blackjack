@@ -38,12 +38,19 @@ class registerLoginController extends BaseController
         if($user != null){
             $pass = Post::get("pass");
             if($user->pass === $pass){
-                registerLoginController::afterLogin($user);
+                //Block field 1 if blocked | 0 if its ok
+                if($user->block == 1){
+                    //The user is blocked
+                    //return form with data/errors
+                    return View::make('base.regist_login', ["erroBlock" => (object)['errors' => "A conta " . $user->username . " esta bloqueada!!"]]);
+                }else{
+                    registerLoginController::afterLogin($user);
+                }
             }else{
                 //wrong password
                 //return form with data/errors
                 return View::make('base.regist_login', ["erroPass" => (object)['errors' => "A password não esta correta!",'username' => $username]]);
-            }
+            } 
         }else{
             //username doesnt exist
             //return form with data/errors

@@ -11,7 +11,6 @@ if(Session::has('userHand')){
     $userHand = Session::get('userHand');
     $computerHand = Session::get('computerHand');
 }
-//  var_dump(Session::get("users"));
 
 
 Layout::includeLayout('header');?>
@@ -33,7 +32,7 @@ Layout::includeLayout('header');?>
                     <h4>Credits: <?=$user->money?></h4>
                 </div>
                 <?php  if(Session::has('bet_value')){ ?>
-                    <h4 style="color: white;text-align: center;">Bet Amount: <?=Session::get('bet_value')?>€ </h4>
+                    <h4 style="color: white;text-align: center;">Bet Amount: <?=Session::get('bet_value')?> </h4>
                 <?php }else{ ?>
                     <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('bets/bet')?>">
                         <div class="form-group">

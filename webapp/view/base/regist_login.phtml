@@ -11,11 +11,12 @@ ErrMgr::attach($user);
 
 $erroUsername = Data::get('erroUsername');
 $erroPass = Data::get('erroPass');
+$erroBlock = Data::get('erroBlock');
 
 Layout::includeLayout('headerindex');?>
     <!-- Header -->
     
-        <div class="container" style="background: #181015;background-size: cover;width:100%;padding-left: 50px;height:75vh;">
+        <div class="container" style="padding-top: 60px; background: #181015;background-size: cover;width:100%;padding-left: 50px;height:75vh;">
             <div class="links" style="float: left;width:50%;">
                 <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/registo')?>">
                     <h2 style="color:white;">Registar</h2>
@@ -23,21 +24,21 @@ Layout::includeLayout('headerindex');?>
                         <label for="firstName" class="col-sm-3 control-label">Full Name</label>
                         
                         <div class="col-sm-9">
-                            <input type="text" value="<?=$user->full_name?>" name="full_name" placeholder="Full Name" class="form-control" autofocus>
+                            <input type="text" value="<?=$user->full_name?>" maxlength="60" name="full_name" placeholder="Full Name" class="form-control" autofocus>
                         </div>
                         <?= ErrMgr::bind('full_name') ?>
                     </div>
                     <div class="form-group">
                         <label for="firstName" class="col-sm-3 control-label">username</label>
                         <div class="col-sm-9">
-                            <input type="text" value="<?=$user->username?>" name="username" placeholder="username" class="form-control" >
+                            <input type="text" value="<?=$user->username?>" maxlength="30" name="username" placeholder="username" class="form-control" >
                         </div>
                         <?= ErrMgr::bind('username') ?>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="email" value="<?=$user->email?>" name="email" placeholder="Email" class="form-control">
+                            <input type="email" value="<?=$user->email?>" name="email" maxlength="45" placeholder="Email" class="form-control">
                             <span class="help-block">e.g: antonio.lopes@gmail.com</span>
                         </div>
                         <?= ErrMgr::bind('email') ?>
@@ -45,7 +46,7 @@ Layout::includeLayout('headerindex');?>
                     <div class="form-group">
                         <label for="password" class="col-sm-3 control-label">Password</label>
                         <div class="col-sm-9">
-                            <input type="password" value="<?=$user->pass?>" name="pass" placeholder="Password" class="form-control">
+                            <input type="password" value="<?=$user->pass?>" maxlength="30" name="pass" placeholder="Password" class="form-control">
                         </div>
                         <?= ErrMgr::bind('pass') ?>
                     </div>
@@ -66,6 +67,9 @@ Layout::includeLayout('headerindex');?>
             <div class="" style="float: right;width:45%;">
                 <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/login')?>">
                     <h2 style="color:white;" >Login</h2>
+                    <?php if($erroBlock->errors != null){?>
+                        <h5 style="color:white;" ><?= $erroBlock->errors ?></h5>
+                    <?php } ?> 
                     <?php if($erroUsername->errors != null){?>
                         <h5 style="color:white;" ><?= $erroUsername->errors ?></h5>
                     <?php } ?>           
