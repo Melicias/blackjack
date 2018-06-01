@@ -21,6 +21,8 @@ class registerLoginController extends BaseController
         $user = new User($values);
 
         if($user->is_valid()){
+            //sets the password as hash, after check if password is < 30
+            $user->pass = password_hash($user->pass, PASSWORD_DEFAULT);
             $user->save();
             //var_dump($user);
             registerLoginController::afterLogin($user);
@@ -37,7 +39,9 @@ class registerLoginController extends BaseController
         //checks if user exists
         if($user != null){
             $pass = Post::get("pass");
-            if($user->pass === $pass){
+            //Verifies that the given hash matches the given password.
+            if (password_verify($pass, $user->pass)) { 
+            //if($user->pass === $pass){
                 //Block field 1 if blocked | 0 if its ok
                 if($user->block == 1){
                     //The user is blocked

@@ -9,19 +9,18 @@ if(Session::has('userid')){
     Layout::includeLayout('headerindex');
 }?>
 
-    <!-- Header -->
-    <header id="head">
-        <div class="container">
-            
-        </div>
-    </header>
-    <!-- /Header -->
-
     <!-- container -->
-    <div class="container">
-
-        
-
+    <div class="container" style="margin: auto;width:100%;height:100%;background: #181015; padding:100px; color:white;">
+        <h4>When User gets blocked </h4>
+        <p style="padding-left:20px">if User has been blocked, everytime he login/ bet/ change page, we will get blocked and redirect to a page </p>
+        <h4>Game Things</h4>
+        <p style="padding-left:20px">First time user gets in, the game shuffles 5 decks into one. When it only have 2 decks left (104) in the next bet, it will shuffle another 5 decks</p>
+        <div style="padding-left:20px">
+            <p>STAND: Dealer withdraw cards until it gets to 17, when it gets to 17, it stops withdrawing cards</p>
+            <p>HIT: User withdraw a card. If user gets more than 21 points, it will check if user has one A's and if A's value is 11 it will change it to 1</p>
+            <p>DOUBLE: User withdraw a new card and it double the money he bets. User can not withdraw more cards, so the dealer will withdraw cards until it gets to over 17 </p>
+            <p>SURRENDER: </p>
+        </div>
     </div>	<!-- /container -->
 
 <?php Layout::includeLayout('footer')?>

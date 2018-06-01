@@ -25,6 +25,10 @@ class personalAreaController extends BaseController
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
         $money = Post::get('funds');
+        //error, value is lower than 1 and higher than 10000
+        //ctype_digit -> Checks if all of the characters in the provided string, text, are numerical.
+        if($money < 0 || $money > 10000 || !ctype_digit($money))
+            return Redirect::toRoute('base/personalArea');
         $userid = Session::get('userid');
         //gets the user in the database by the id
         $user = User::find($userid);
@@ -35,7 +39,7 @@ class personalAreaController extends BaseController
                                            'credito' => ($money*4)/*,'movement_date' => date('Y-m-d H:i:s')*/,
                                            'description' => 'Carregamento ' . $money . "€",'saldo' => $credits));
         $movement->save();
-        Redirect::toRoute('base/personalArea');
+        return Redirect::toRoute('base/personalArea');
         //$this::index();
         
     }

@@ -25,11 +25,11 @@ class User extends \ActiveRecord\Model
 	 * Validates a field is not null and not blank.
      */
     static $validates_presence_of = array(
-        array('email', 'message' => 'Deverá preencher este campo!'),
-        array('full_name', 'message' => 'Deverá preencher este campo!'),
-        array('username', 'message' => 'Deverá preencher este campo!'),
-        array('pass', 'message' => 'Deverá preencher este campo!'),
-        array('birthday', 'message' => 'Deverá preencher este campo!')
+        array('email', 'message' => 'This cant be blank!'),
+        array('full_name', 'message' => 'This cant be blank!'),
+        array('username', 'message' => 'This cant be blank!'),
+        array('pass', 'message' => 'This cant be blank!'),
+        array('birthday', 'message' => 'This cant be blank!')
     );
 
 
@@ -37,8 +37,21 @@ class User extends \ActiveRecord\Model
 	 * Validates the uniqueness of a value.
      */
     static $validates_uniqueness_of = array(
-        array(array('username'), 'message' => 'O username já existe!'),
-        array(array('email'), 'message' => 'O email já está registado!')
+        array(array('username'), 'message' => 'The username already exists!'),
+        array(array('email'), 'message' => 'The email already exists!')
+    );
+
+    /**
+	 * Validates the email
+	 */
+    static $validates_format_of = array(
+        array('email', 'with' => '/^.*?@.*$/','message' => 'Invalid email')
+    );
+
+    static $validates_length_of = array(
+        array('username', 'within' => array(1,30)),
+        array('full_name', 'within' => array(1,60)),
+        array('email', 'within' => array(1,45))
     );
 }
 
