@@ -39,7 +39,7 @@ class adminController extends BaseController
                 if($user->block == 1){
                     //The admin is blocked
                     //return form with data/errors
-                    return View::make('admin.login', ["erroBlock" => (object)['errors' => "A conta " . $user->username . " esta bloqueada!!"]]);
+                    return View::make('admin.login', ["erroBlock" => (object)['errors' => "The account " . $user->username . " is block!!"]]);
                 }else{
                     Session::set('adminid', $user->id);
                     //return with all users
