@@ -7,9 +7,10 @@ class Jackpot extends \ActiveRecord\Model
 
     /*
     * value_won   int
-	* bj_date     date 
 	* username    String
     * id_user     int
+    *
+    * bj_date     date      default: CURRENT_TIMESTAMP -> no need to send this field to the db
     *
     * no order in construct
     */

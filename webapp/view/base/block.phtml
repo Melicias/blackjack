@@ -1,0 +1,28 @@
+<?php
+use ArmoredCore\WebObjects\Asset;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Session;
+use ArmoredCore\WebObjects\Data;
+
+    $user = Data::get("user");
+
+Layout::includeLayout('header');?>
+
+    <!-- Header -->
+        <div class="container"style="width:100%;height:100%;background: #181015;" >
+            <div>
+                <form class="" method="POST" role="form" action="<?=Url::toRoute('block/unblock')?>">
+                    <div class="" style ="width: 200px;margin: 0 auto;margin-top: 70px;padding-bottom: 15px;">
+                        <h4 style="text-align:center;color:white; ">Current user: <?=$user->username?></h4>
+                        <h5 style="text-align:center;color:white; "> You have been block by one of our Admins, please add some funds so you can get unblock </h5>
+                        <input style="float:left;margin-bottom: 5px;" type="number" name="funds" min="1" max="10000" placeholder="Money to add in €" class="form-control">
+                        <input type="submit" class="btn btn-primary btn-block" value="UnBlock Account">
+                        <p style='text-align:center;color:white;'>1€ = 4 credits</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br><br><br><br>
+    <!-- /Header -->
+<?php Layout::includeLayout('footer')?>

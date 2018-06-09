@@ -28,3 +28,20 @@ use ArmoredCore\WebObjects\URL;
 </head>
 
 <body class="home" style="background: #181015; height: 100%;">
+<!-- Fixed navbar -->
+<div class="navbar navbar-inverse navbar-fixed-top headroom" >
+    <div class="container">
+        <div class="navbar-header">
+            <!-- Button for smallest screens -->
+            <a class="navbar-brand" href="<?= URL::toRoute('admin/index')?>"><img src="<?= Asset::image('blackjack_small_icon.png')?>" alt="BlackJack" width="50" height="50"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="<?= URL::toRoute('admin/users')?>">Users</a></li>
+                <li><a href="<?= URL::toRoute('admin/admins')?>">Admins</a></li>
+                <li><a href="<?= URL::toRoute('admin/changePassword')?>">Change Password</a></li>
+                <li><a href="<?= URL::toRoute('admin/logout')?>">Logout</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>

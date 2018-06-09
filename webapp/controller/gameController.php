@@ -7,22 +7,35 @@ use ArmoredCore\WebObjects\Post;
 
 class gameController extends BaseController
 {
+    /**
+     * @return view
+     */
     public function index(){
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
+        $user = User::find(Session::get('userid'));
+        if($user->block == 1)
+            return View::make('base.block');
         return View::make('base.game');
     }
 
+    /**
+     * @return view
+     * 
+     * bets the money and witdraw the cards for the dealer and the user
+     */
     public function bet(){
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
+        $user = User::find(Session::get('userid'));
+        //gets the user in the database by the id
+        if($user->block == 1)
+            return View::make('base.block');
         $bet_value = Post::get("bet_value");
         $userid = Session::get('userid');
-        //gets the user in the database by the id
-        $user = User::find($userid);
-        //checks if user has any oney to bet with
-        if($bet_value <= 0)
+        if($bet_value <= 0 || $bet_value > 10000 || !ctype_digit($bet_value))
             return Redirect::toRoute('base/play');
+        //checks if user has any money to bet with
         if($user->money >= $bet_value){
             $user->money -= $bet_value;
             if($user->is_valid()){
@@ -35,7 +48,6 @@ class gameController extends BaseController
                                            'debito' => $bet_value,
                                            'description' => 'Bet','saldo' => $user->money));
                 $movement->save();
-
 
                 //remove Session last variables
                 Session::remove('finalMessage');
@@ -77,6 +89,11 @@ class gameController extends BaseController
         }
     }
 
+    /**
+     * @return view
+     * 
+     * surrender, user loses half the money he bets and the game ends
+     */
     public function surrender(){
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
@@ -85,6 +102,8 @@ class gameController extends BaseController
             $userid = Session::get('userid');
             //gets the user in the database by the id
             $user = User::find($userid);
+            if($user->block == 1)
+                return View::make('base.block');
             //updates the money
             $user->money += (Session::get('bet_value')/2);
             if($user->is_valid()){
@@ -109,9 +128,19 @@ class gameController extends BaseController
         }
     }
 
+    /**
+     * @return view
+     * 
+     * the user stands and the dealer has to withdraw card until he gets to 16
+     * after that, this function always check who is the winner
+     */
     public function stand(){
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
+        //gets the user in the database by the id
+        $user = User::find(Session::get('userid'));
+        if($user->block == 1)
+            return View::make('base.block');
         if(Session::has('userHand')){
             //get Session variables
             $deck = Session::get('deck');
@@ -130,8 +159,6 @@ class gameController extends BaseController
                 //its a draw
                 Session::set("finalMessage", "It's a DRAW");
                 //give money bet to user
-                //gets the user in the database by the id
-                $user = User::find($userid);
                 //updates the money
                 $user->money += (Session::get('bet_value'));
                 if($user->is_valid()){
@@ -155,8 +182,6 @@ class gameController extends BaseController
                 }else{
                     //the user wins
                     //gives money to user * 2
-                    //gets the user in the database by the id
-                    $user = User::find($userid);
                     Session::set("finalMessage", $user->username . " WIN");
                     //updates the money
                     $user->money += (Session::get('bet_value')*2);
@@ -185,9 +210,18 @@ class gameController extends BaseController
         }
     }
 
+    /**
+     * @return view
+     * 
+     * the user asks for another card and checks if user loses
+     */
     public function hit(){
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
+        //gets the user in the database by the id
+        $user = User::find(Session::get('userid'));
+        if($user->block == 1)
+            return View::make('base.block');
         $deck = Session::get('deck');
         $userHand = Session::get('userHand');
         //gives another card to the user
@@ -203,11 +237,18 @@ class gameController extends BaseController
         Redirect::toRoute('base/play');
     }
 
+    /**
+     * @return view
+     * 
+     * it doubles the bet and checks if user loses
+     */
     public function double(){
         if(!Session::has("userid"))
             return Redirect::toRoute('base/index');
         //gets the user in the database by the id
         $user = User::find(Session::get('userid'));
+        if($user->block == 1)
+            return View::make('base.block');
         $bet_value = Session::get('bet_value');
         //checks if user has any oney to bet with
         if($user->money >= $bet_value){
@@ -236,6 +277,12 @@ class gameController extends BaseController
         }
     }
 
+    /**
+     * @param user
+     * @param int
+     * 
+     * checks if this bet should go to jackpot or not
+     */
     public function addToJackpot($user,$value_won){
         //gets all the jackpots and orders them by value_won
         $jackpot = Jackpot::find('first',array('conditions' => array('id_user=?',$user->id),

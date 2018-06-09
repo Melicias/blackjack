@@ -5,7 +5,6 @@ class Deck{
     * $cards -> array of cards objects
     * __construct()
     *
-    *
     */
 
     public $cards;
@@ -17,23 +16,32 @@ class Deck{
         $deck3 = $this->inicializeDeck();
         $deck4 = $this->inicializeDeck();
         $deck5 = $this->inicializeDeck();
+        // joins all decks into 1
         $this->cards = array_merge($deck1,$deck2,$deck3,$deck4,$deck5);
         //shuffle the deck
         shuffle($this->cards);
     }
 
-    //return the first element of the array and remove the first one
-    //returns null if there is no more cards in the deck
+    /**
+     * @return card the first element in the array and removes it
+     * @return null if there is no more cards in the deck 
+     */
     function giveCardToUser(){
         if(count($this->cards)>0)
             return array_shift($this->cards);
         return null;
     }
 
-    //returns all the array of cards
+    /**
+     * @return array cards
+     */
     public function getDeck(){
         return $this->cards;
     }
+
+    /**
+     * @return array new deck
+     */
 
     public function inicializeDeck(){
         //card  __construct($name,$value)

@@ -32,8 +32,18 @@ Router::POST('bets/surrender',       'gameController/surrender');
 
 Router::get('admin/',                'adminController/login');
 Router::get('admin/login',           'adminController/login');
+Router::get('admin/users',           'adminController/users');
+Router::get('admin/admins',          'adminController/admins');
+Router::get('admin/logout',          'adminController/logout');
+Router::get('admin/changePassword',  'adminController/getChangePasswordPage');
 Router::POST('admin/login',          'adminController/afterLogin');
 Router::POST('admin/block',          'adminController/block');
+Router::POST('admin/changePassword', 'adminController/changePassword');
+Router::POST('admin/users',          'adminController/redirectToUsers');
 
+
+
+Router::get('base/block',            'blockController/index');
+Router::POST('block/unblock',        'blockController/unblock');
 
 /************** End of URLEncoder Routing Rules ************************************/

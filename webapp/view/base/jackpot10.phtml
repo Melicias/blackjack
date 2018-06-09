@@ -17,9 +17,11 @@ if(Session::has('userid')){
     <!-- Header -->
         <div class="container"style="width:100%;height:100%;background: #181015;" >
             <div style="margin: auto;width: 50%; padding: 100px;color:white;">
-            <?php if($jackpot_user != null){ ?>
+            <?php if(Session::has("userid")){
+                    if($jackpot_user != null){?>
                 <p>Personal Record: <?=$jackpot_user->value_won?> credits on <?=$jackpot_user->bj_date->format('Y-m-d')?> at <?=$jackpot_user->bj_date->format('H:i:s')?></p>
-            <?php } ?>
+            <?php   } 
+                }   ?>
                 <table class="table">
                     <thead class="thead">
                         <tr>

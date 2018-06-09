@@ -6,7 +6,7 @@ class User extends \ActiveRecord\Model
     static $table_name = "users";
 
     /*
-    * is_admin   int  0 -> no admin | 1 -> admin | default: 0
+    * is_admin   int  0 -> no admin | 1 -> admin | 2 -> superAdmin | default: 0
     * username   String
     * full_name  String
     * email      String
@@ -14,8 +14,6 @@ class User extends \ActiveRecord\Model
     * Birthday   Date
     * money      int
     * block      int  0 -> no block | 1 -> block | default: 0
-    * @param 
-    * @return 
     * 
     *
     * no order in construct
@@ -47,10 +45,13 @@ class User extends \ActiveRecord\Model
     static $validates_format_of = array(
         array('email', 'with' => '/^.*?@.*$/','message' => 'Invalid email')
     );
-
+    /**
+	 * Validates the length of a values
+	 */
     static $validates_length_of = array(
         array('username', 'within' => array(1,30)),
         array('full_name', 'within' => array(1,60)),
+        array('pass','minimum' => 3),
         array('email', 'within' => array(1,45))
     );
 }

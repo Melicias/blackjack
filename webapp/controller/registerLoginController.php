@@ -7,10 +7,19 @@ use ArmoredCore\WebObjects\Post;
 
 class registerLoginController extends BaseController
 {
+    /**
+     * @return view
+     */
     public function regist_login(){
         return View::make('base.regist_login');
     }
     
+    /**
+     * @return view
+     * with user
+     * 
+     * Creates new User and checks if everything is fine to create a new one.
+     */
     public function regist_login_made(){
         //add is_Admin and money to the new user
         //is_admin = 0 means the user doesnt have any admin rights, its a normal user
@@ -32,6 +41,12 @@ class registerLoginController extends BaseController
         }
     }
 
+    /**
+     * @return view
+     * 
+     * chekcs if usernema exists and if it does, compare the passwords
+     * if everything is correst, it logs into the user account
+     */
     public function login(){
         $username = Post::get("username");
         //go and gets user by the username and checks if is a player by is_admin = 0
@@ -62,11 +77,18 @@ class registerLoginController extends BaseController
         }
     }
 
+    /**
+     * @param user
+     * @return view
+     */
     private function afterLogin($user){
         Session::set('userid', $user->id);
         return View::make('base.index');
     }
 
+    /**
+     * @return view
+     */
     public function logout(){
         Session::destroy();
         Redirect::toRoute('base/index');
