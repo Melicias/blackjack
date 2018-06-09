@@ -37,7 +37,7 @@ class blockController extends BaseController
         $money = Post::get('funds');
         //error, value is lower than 1 and higher than 10000
         //ctype_digit -> Checks if all of the characters in the provided string, text, are numerical.
-        if($money < 0 || $money > 10000 || !ctype_digit($money))
+        if($money <= 0 || $money > 10000 || !ctype_digit($money))
             return Redirect::toRoute('base/block');
         $credits = $user->money + ($money*4);
         $user->update_attributes(array("money" => $credits,"block" => 0));

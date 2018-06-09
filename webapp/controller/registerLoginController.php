@@ -58,13 +58,14 @@ class registerLoginController extends BaseController
             if (password_verify($pass, $user->pass)) { 
             //if($user->pass === $pass){
                 //Block field 1 if blocked | 0 if its ok
-                if($user->block == 1){
+                //old code to check if it was blocked or not, but now, he can login and it will show him a page
+                /*if($user->block == 1){
                     //The user is blocked
                     //return form with data/errors
                     return View::make('base.regist_login', ["erroBlock" => (object)['errors' => "A conta " . $user->username . " esta bloqueada!!"]]);
-                }else{
+                }else{*/
                     registerLoginController::afterLogin($user);
-                }
+                //}
             }else{
                 //wrong password
                 //return form with data/errors
@@ -83,6 +84,8 @@ class registerLoginController extends BaseController
      */
     private function afterLogin($user){
         Session::set('userid', $user->id);
+        if($user->block == 1)
+            return View::make('base.block');
         return View::make('base.index');
     }
 
