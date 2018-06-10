@@ -33,6 +33,7 @@ You will need to run one of the 2 databases <br />
 * HIT -> withdraw one card to the user
 * DOUBLE -> If user has money, it doubles user bet and giver only one more card to the user and them dealer withdraw cards until he reaches 17
 * SURRENDER -> User loses the game but keeps half the bet value <br />
+
 	MISSING: when user is playing dont let user logout or change page <br />
 **Personal area**     -> Where you can check your last 10 moviments and you can see and add funds <br />
 **JackPot 10**     -> if there is any jackpots it shows the 10 biggest AND if shows user biggest win <br />
