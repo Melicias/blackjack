@@ -17,9 +17,9 @@ You will need to run one of the 2 databases <br />
 
 ### Without login
 
-Home            -> show a page that shows how does the game works <br />
-JackPot 10      -> if there is any jackpots it shows the 10 biggest <br />
-Sign up / Login -> To sign up or login <br />
+**Home  **          -> show a page that shows how does the game works <br />
+**JackPot 10 **     -> if there is any jackpots it shows the 10 biggest <br />
+**Sign up / Login** -> To sign up or login <br />
 					All fields are "protected" with html and php checks all fields <br />
 						php checks nulls, sizes, if is an email <br />
 					MISSING: check date of birth if its old enough <br />
