@@ -1,4 +1,4 @@
-# Project Title
+# BlackJack
 
 This is the blackjack game made by Francisco Melicias
 
@@ -27,7 +27,7 @@ You will need to run one of the 2 databases <br />
 ### With login
 
 **Home**          -> show a page that shows how does the game works <br />
-**Play** 		  -> Place to play the game -> the Deck has 5 decks inside and when it gets to 2 decks, it will shuffle 5 decks again
+**Play** 		  -> Place to play the game -> the Deck has 5 decks inside and when it gets to 2 decks, it will shuffle 5 decks again <br />
 	* BET -> when the bet is valid (bet value > 0 and bet value < 10000) it withdraws one card to the user, other to the dealer and another one to the user
 	* STAND -> dealers withdraws card until he reaches 17
 	* HIT -> withdraw one card to the user
