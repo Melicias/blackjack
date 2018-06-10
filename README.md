@@ -28,11 +28,11 @@ You will need to run one of the 2 databases <br />
 
 **Home**          -> show a page that shows how does the game works <br />
 **Play** 		  -> Place to play the game -> the Deck has 5 decks inside and when it gets to 2 decks, it will shuffle 5 decks again <br />
-	* BET -> when the bet is valid (bet value > 0 and bet value < 10000) it withdraws one card to the user, other to the dealer and another one to the user
-	* STAND -> dealers withdraws card until he reaches 17
-	* HIT -> withdraw one card to the user
-	* DOUBLE -> If user has money, it doubles user bet and giver only one more card to the user and them dealer withdraw cards until he reaches 17
-	* SURRENDER -> User loses the game but keeps half the bet value
+* BET -> when the bet is valid (bet value > 0 and bet value < 10000) it withdraws one card to the user, other to the dealer and another one to the user
+* STAND -> dealers withdraws card until he reaches 17
+* HIT -> withdraw one card to the user
+* DOUBLE -> If user has money, it doubles user bet and giver only one more card to the user and them dealer withdraw cards until he reaches 17
+* SURRENDER -> User loses the game but keeps half the bet value
 	MISSING: when user is playing dont let user logout or change page <br />
 **Personal area**     -> Where you can check your last 10 moviments and you can see and add funds <br />
 **JackPot 10**     -> if there is any jackpots it shows the 10 biggest AND if shows user biggest win <br />
