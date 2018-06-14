@@ -55,7 +55,7 @@ class registerLoginController extends BaseController
         if($user != null){
             $pass = Post::get("pass");
             //Verifies that the given hash matches the given password.
-            if (password_verify($pass, $user->pass)) { 
+            if ($user->checkPassword($pass)) { 
             //if($user->pass === $pass){
                 //Block field 1 if blocked | 0 if its ok
                 //old code to check if it was blocked or not, but now, he can login and it will show him a page

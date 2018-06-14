@@ -35,7 +35,7 @@ class adminController extends BaseController
         //checks if user exists
         if($user != null){
             $pass = Post::get("pass");
-            if(password_verify($pass, $user->pass)){
+            if ($user->checkPassword($pass)) {
                 if($user->block == 1){
                     //The admin is blocked
                     //return form with data/errors
@@ -181,7 +181,7 @@ class adminController extends BaseController
                 if(strlen($newPass) <= 30 && strlen($newPass) >= 3){
                     $repeatPass = Post::get('repeatPass');
                     if($newPass === $repeatPass){
-                        if(!password_verify($newPass, $user->pass)){
+                        if(!$user->checkPassword($newPass)){
                             $newPassHash = password_hash($newPass, PASSWORD_DEFAULT);
                             $user->update_attributes(array('pass' => $newPassHash));                
                             return View::make(

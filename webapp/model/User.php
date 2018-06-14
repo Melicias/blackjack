@@ -54,6 +54,18 @@ class User extends \ActiveRecord\Model
         array('pass','minimum' => 3),
         array('email', 'within' => array(1,45))
     );
+
+    /**
+     * @return boolean
+     * 
+     * true if its the same
+     * false if its not the same
+     */
+    public function checkPassword($password){
+        if (password_verify($password, $this->pass))
+            return true;
+        return false;
+    }
 }
 
 ?>
