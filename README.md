@@ -1,4 +1,4 @@
-# Project Title
+# Blackjack Game
 
 This is the blackjack game made by Francisco Melicias
 
