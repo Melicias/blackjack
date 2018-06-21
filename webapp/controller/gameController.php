@@ -198,7 +198,7 @@ class gameController extends BaseController
 
                         //new code for the jackpot
                         
-                        gameController::addToJackpot($user,(Session::get('bet_value')*2));
+                        $this->addToJackpot($user,(Session::get('bet_value')*2));
 
                     }
                 }
@@ -269,7 +269,7 @@ class gameController extends BaseController
                     Redirect::toRoute('base/play');
                 }else{
                     Session::set('bet_value',$bet_value);
-                    gameController::stand();
+                    $this->stand();
                 }
             }
         }else{
@@ -283,7 +283,7 @@ class gameController extends BaseController
      * 
      * checks if this bet should go to jackpot or not
      */
-    public function addToJackpot($user,$value_won){
+    private function addToJackpot($user,$value_won){
         //gets all the jackpots and orders them by value_won
         $jackpot = Jackpot::find('first',array('conditions' => array('id_user=?',$user->id),
                                              'order' => 'value_won desc'));

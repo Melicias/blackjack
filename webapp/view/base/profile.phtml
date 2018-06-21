@@ -1,0 +1,67 @@
+<?php
+use ArmoredCore\WebObjects\Asset;
+use ArmoredCore\WebObjects\Layout;
+use ArmoredCore\WebObjects\URL;
+use ArmoredCore\WebObjects\Post;
+use ArmoredCore\WebObjects\Data;
+use ArmoredCore\WebObjects\ErrMgr;
+
+$user = Data::get('user');
+ErrMgr::attach($user);
+$changed = Data::get('changed');
+
+Layout::includeLayout('header');?>
+    <!-- Header -->
+    
+        <div class="container" style="padding-top: 60px; background: #181015;background-size: cover;width:100%;padding-left: 50px;height:75vh;">
+            <div class="links" style="padding-right: 150px;">
+                <form class="form-horizontal" method="POST" role="form" action="<?=Url::toRoute('base/profile')?>">
+                    <h2 style="color:white;">Chenge profile</h2>
+                    <h3 style="text-align:center;color:white;"><?=$changed->errors?> </h3>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-3 control-label">Full Name</label>
+                        
+                        <div class="col-sm-9">
+                            <input type="text" value="<?=$user->full_name?>" maxlength="60" name="full_name" placeholder="Full Name" class="form-control" autofocus>
+                        </div>
+                        <?= ErrMgr::bind('full_name') ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-3 control-label">username</label>
+                        <div class="col-sm-9">
+                            <input type="text" value="<?=$user->username?>" maxlength="30" placeholder="username" class="form-control" disabled >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" value="<?=$user->email?>" name="email" maxlength="45" placeholder="Email" class="form-control">
+                            <span class="help-block">e.g: antonio.lopes@gmail.com</span>
+                        </div>
+                        <?= ErrMgr::bind('email') ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" value="" maxlength="30" name="pass" placeholder="Password" class="form-control">
+                        </div>
+                        <?= ErrMgr::bind('pass') ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate" class="col-sm-3 control-label">Date of Birth</label>
+                        <div class="col-sm-9">
+                            <input type="date" value="<?php if($user->birthday != null){ echo $user->birthday->format('Y-m-d');}?>" name="birthday"  class="form-control">
+                        </div>
+                        <?= ErrMgr::bind('birthday') ?>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9 col-sm-offset-3">
+                        <input type="submit" class="btn btn-primary btn-block" value="Save changes">
+                        </div>
+                    </div>
+                </form>
+            </div>
+    
+    <!-- /Header -->
+
+<?php Layout::includeLayout('footer')?>

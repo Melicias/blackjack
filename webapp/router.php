@@ -41,7 +41,8 @@ Router::POST('admin/block',          'adminController/block');
 Router::POST('admin/changePassword', 'adminController/changePassword');
 Router::POST('admin/users',          'adminController/redirectToUsers');
 
-
+Router::get('base/profile',          'profileController/index');
+Router::POST('base/profile',         'profileController/changeUser');
 
 Router::get('base/block',            'blockController/index');
 Router::POST('block/unblock',        'blockController/unblock');

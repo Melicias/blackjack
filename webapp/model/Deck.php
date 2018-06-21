@@ -29,7 +29,6 @@ class Deck{
     function giveCardToUser(){
         if(count($this->cards)>0)
             return array_shift($this->cards);
-        return null;
     }
 
     /**
